@@ -7,7 +7,7 @@ Usage example:
 ```hcl
 module "cert_manager" {
   source        = "iits-consulting/cert-manager/opentelekomcloud/"
-  version       = "6.0.2"
+
   chart_version = local.chart_versions.cert-manager
   email         = "iits@iits-consulting.de"
   username      = "${var.stage}-dns-admin"
@@ -67,4 +67,3 @@ No modules.
 
 No outputs.
 <!-- END_TF_DOCS -->
-
