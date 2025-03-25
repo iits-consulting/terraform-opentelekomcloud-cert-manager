@@ -12,17 +12,42 @@ resource "helm_release" "cert-manager" {
   dependency_update     = true
   wait_for_jobs         = true
   dynamic "set" {
-    for_each = toset(var.chart_set_parameter)
+    for_each = { for param in var.chart_set_parameter : param.name => {
+      value = param.value
+      type  = param.type
+    } }
     content {
-      name  = set.value.name
+      name  = set.key
       value = set.value.value
+      type  = set.value.type
+    }
+  }
+  dynamic "set_list" {
+    for_each = { for param in var.chart_set_list_parameter : param.name => param.value }
+    content {
+      name  = set_list.key
+      value = set_list.value
     }
   }
   dynamic "set_sensitive" {
-    for_each = toset(var.chart_set_sensitive_parameter)
+    for_each = {
+      "clusterIssuers.otcDNS.accessKey" = opentelekomcloud_identity_credential_v3.user_aksk.access
+      "clusterIssuers.otcDNS.secretKey" = opentelekomcloud_identity_credential_v3.user_aksk.secret
+    }
     content {
-      name  = set_sensitive.value.name
+      name  = set_sensitive.key
+      value = set_sensitive.value
+    }
+  }
+  dynamic "set_sensitive" {
+    for_each = { for param in var.chart_set_sensitive_parameter : param.name => {
+      value = param.value
+      type  = param.type
+    } }
+    content {
+      name  = set_sensitive.key
       value = set_sensitive.value.value
+      type  = set_sensitive.value.type
     }
   }
   values = concat([
@@ -30,9 +55,7 @@ resource "helm_release" "cert-manager" {
       clusterIssuers = {
         email = var.email
         otcDNS = {
-          region    = data.opentelekomcloud_identity_project_v3.current.region
-          accessKey = opentelekomcloud_identity_credential_v3.user_aksk.access
-          secretKey = opentelekomcloud_identity_credential_v3.user_aksk.secret
+          region = data.opentelekomcloud_identity_project_v3.current.region
         }
       }
     })
