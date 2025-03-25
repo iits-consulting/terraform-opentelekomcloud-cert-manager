@@ -19,7 +19,6 @@ module "cert_manager" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.7 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.17 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.30 |
 | <a name="requirement_opentelekomcloud"></a> [opentelekomcloud](#requirement\_opentelekomcloud) | ~> 1.32 |
@@ -55,8 +54,9 @@ No modules.
 | <a name="input_email"></a> [email](#input\_email) | E-Mail to use for the ACME Registration and DNS management. | `string` | n/a | yes |
 | <a name="input_chart_name"></a> [chart\_name](#input\_chart\_name) | Name of the IITS cert-manager chart. | `string` | `"cert-manager"` | no |
 | <a name="input_chart_repository"></a> [chart\_repository](#input\_chart\_repository) | Chart repository of the IITS cert-manager chart. | `string` | `"https://charts.iits.tech"` | no |
-| <a name="input_chart_set_parameter"></a> [chart\_set\_parameter](#input\_chart\_set\_parameter) | Override the values of the IITS cert-manager chart using set. | <pre>list(object({<br/>    name  = string<br/>    value = string<br/>  }))</pre> | `[]` | no |
-| <a name="input_chart_set_sensitive_parameter"></a> [chart\_set\_sensitive\_parameter](#input\_chart\_set\_sensitive\_parameter) | Override the values of the IITS cert-manager chart using set\_sensitive. | <pre>list(object({<br/>    name  = string<br/>    value = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_chart_set_list_parameter"></a> [chart\_set\_list\_parameter](#input\_chart\_set\_list\_parameter) | Override the values of the IITS cert-manager chart using set\_list. | <pre>list(object({<br/>    name  = string<br/>    value = list(string)<br/>  }))</pre> | `[]` | no |
+| <a name="input_chart_set_parameter"></a> [chart\_set\_parameter](#input\_chart\_set\_parameter) | Override the values of the IITS cert-manager chart using set. | <pre>list(object({<br/>    name  = string<br/>    value = optional(string)<br/>    type  = optional(string)<br/>  }))</pre> | `[]` | no |
+| <a name="input_chart_set_sensitive_parameter"></a> [chart\_set\_sensitive\_parameter](#input\_chart\_set\_sensitive\_parameter) | Override the values of the IITS cert-manager chart using set\_sensitive. | <pre>list(object({<br/>    name  = string<br/>    value = string<br/>    type  = optional(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_chart_values"></a> [chart\_values](#input\_chart\_values) | Override the values of the IITS cert-manager chart using value files. | `list(string)` | `[]` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Chart version of the IITS cert-manager chart. | `string` | `"1.16.1"` | no |
 | <a name="input_release_name"></a> [release\_name](#input\_release\_name) | Name the helm release. | `string` | `"cert-manager"` | no |
