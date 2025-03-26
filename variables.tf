@@ -48,17 +48,27 @@ variable "chart_values" {
 variable "chart_set_parameter" {
   type = list(object({
     name  = string
-    value = string
+    value = optional(string)
+    type  = optional(string)
   }))
   default     = []
   description = "Override the values of the IITS cert-manager chart using set."
 }
 
+variable "chart_set_list_parameter" {
+  type = list(object({
+    name  = string
+    value = list(string)
+  }))
+  default     = []
+  description = "Override the values of the IITS cert-manager chart using set_list."
+}
 
 variable "chart_set_sensitive_parameter" {
   type = list(object({
     name  = string
     value = string
+    type  = optional(string)
   }))
   default     = []
   description = "Override the values of the IITS cert-manager chart using set_sensitive."
